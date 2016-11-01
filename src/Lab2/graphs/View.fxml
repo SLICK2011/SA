@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="403.0" prefWidth="632.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Lab2.graphs.Controller">
+   <center>
+      <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab fx:id="tab1" onSelectionChanged="#tab1Selected" text="y1">
+               <content>
+                  <BorderPane fx:id="borderPane1" prefHeight="200.0" prefWidth="200.0">
+                     <bottom>
+                        <ComboBox fx:id="comboBoxy1" onAction="#refresh" prefHeight="36.0" prefWidth="780.0" BorderPane.alignment="CENTER" />
+                     </bottom>
+                  </BorderPane>
+               </content>
+          </Tab>
+            <Tab fx:id="tab2" onSelectionChanged="#tab2Selected" text="y2">
+               <content>
+                  <BorderPane fx:id="borderPane2" prefHeight="200.0" prefWidth="200.0">
+                     <bottom>
+                        <ComboBox fx:id="comboBoxy2" onAction="#refresh" prefHeight="36.0" prefWidth="610.0" BorderPane.alignment="CENTER" />
+                     </bottom>
+                  </BorderPane>
+               </content>
+            </Tab>
+            <Tab fx:id="tab3" onSelectionChanged="#tab3Selected" text="y3">
+               <content>
+                  <BorderPane fx:id="borderPane3" prefHeight="200.0" prefWidth="200.0">
+                     <bottom>
+                        <ComboBox fx:id="comboBoxy3" onAction="#refresh" prefHeight="36.0" prefWidth="610.0" BorderPane.alignment="CENTER" />
+                     </bottom>
+                  </BorderPane>
+               </content>
+            </Tab>
+            <Tab fx:id="tab4" onSelectionChanged="#tab4Selected" text="y4">
+               <content>
+                  <BorderPane fx:id="borderPane4" prefHeight="200.0" prefWidth="200.0">
+                     <bottom>
+                        <ComboBox fx:id="comboBoxy4" onAction="#refresh" prefHeight="36.0" prefWidth="610.0" BorderPane.alignment="CENTER" />
+                     </bottom>
+                  </BorderPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>
