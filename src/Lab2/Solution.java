@@ -50,7 +50,7 @@ public class Solution implements Runnable {
 
     public Solution(double[][] normaX, double[][] normaY,double[][] originalX, double[][] originalY, int sizeX1, int sizeX2, int sizeX3,
                     int powerX1, int powerX2, int powerX3, int yi, int polinomType,boolean flag){
-        t = new Thread(this,"Y1");
+        t = new Thread(this,"Y"+yi);
         this.normaX = new Matrix(normaX);
         this.sizeX1 = sizeX1;
         this.sizeX2 = sizeX2;
@@ -111,7 +111,12 @@ public class Solution implements Runnable {
         for (int i=0;i<lambda1X.getRowDimension();i++){
             lambda1X.set(i,0,lambda1X.get(i,0)+1e-7);
         }
-        lambda1 = MyMath.ordLeastSquares(lambda1X,normaY);
+        try {
+            lambda1 = MyMath.ordLeastSquares(lambda1X,normaY);
+        }catch (RuntimeException e){
+            maxError = 100;
+        }
+
         count = 0;
         currentX = 1;
         for (int j=0;j<(powerX1+1)*sizeX1;j++){
@@ -142,7 +147,12 @@ public class Solution implements Runnable {
         for (int i=0;i<lambda2X.getRowDimension();i++){
             lambda2X.set(i,0,lambda2X.get(i,0)+1e-7);
         }
-        lambda2 = MyMath.ordLeastSquares(lambda2X,normaY);
+        try {
+            lambda2 = MyMath.ordLeastSquares(lambda2X,normaY);
+        }catch (RuntimeException e){
+            maxError = 100;
+        }
+
         count = 0;
         currentX = 1;
         for (int j=0;j<(powerX2+1)*sizeX2;j++){
@@ -175,7 +185,12 @@ public class Solution implements Runnable {
             lambda3X.set(i,4,lambda3X.get(i,4)+2e-7);
         }
         //lambda3X.print(lambda3X.getColumnDimension(),7);
-        lambda3 = MyMath.ordLeastSquares(lambda3X,normaY);
+        try {
+            lambda3 = MyMath.ordLeastSquares(lambda3X,normaY);
+        }catch (RuntimeException e){
+            maxError = 100;
+        }
+
 
         count = 0;
         currentX = 1;
@@ -254,17 +269,35 @@ public class Solution implements Runnable {
         //1
         Matrix a1;
         Matrix matrixPsi1 = new Matrix(psi1);
-        a1 = MyMath.ordLeastSquares(matrixPsi1,normaY);
+        try {
+            a1 = MyMath.ordLeastSquares(matrixPsi1,normaY);
+        }catch (RuntimeException e){
+            maxError = 100;
+            a1 = null;
+        }
+
 
         //2
         Matrix a2;
         Matrix matrixPsi2 = new Matrix(psi2);
-        a2 = MyMath.ordLeastSquares(matrixPsi2,normaY);
+        try {
+            a2 = MyMath.ordLeastSquares(matrixPsi2,normaY);
+        }catch (RuntimeException e){
+            maxError = 100;
+            a2 = null;
+        }
+
 
         //3
         Matrix a3;
         Matrix matrixPsi3 = new Matrix(psi3);
-        a3 = MyMath.ordLeastSquares(matrixPsi3,normaY);
+        try {
+            a3 = MyMath.ordLeastSquares(matrixPsi3,normaY);
+        }catch (RuntimeException e){
+            maxError = 100;
+            a3 = null;
+        }
+
 
 
         //Нахождение Ф
@@ -307,7 +340,13 @@ public class Solution implements Runnable {
         //1
         Matrix c;
         Matrix matrixAllF = new Matrix(allF);
-        c = MyMath.ordLeastSquares(matrixAllF,normaY);
+        try {
+            c = MyMath.ordLeastSquares(matrixAllF,normaY);
+        }catch (RuntimeException e){
+            maxError = 100;
+            c = null;
+        }
+
 
         Matrix yiq1 = new Matrix(matrixPsi1.getRowDimension(),1);
         for (int i=0;i<matrixPsi1.getRowDimension();i++){
@@ -345,8 +384,8 @@ public class Solution implements Runnable {
         findForiginal = findFi;
 
         //Вывод
-        if (flag){
-            sbForInterimResult.append("\n\nLambda1");
+        if (flag&&a1!=null&&a2!=null&&a3!=null&&c!=null){
+                        sbForInterimResult.append("\n\nLambda1");
             for (int i=0;i<lambda1.getRowDimension();i++){
                 sbForInterimResult.append("\n"+lambda1.get(i,0));
             }
@@ -402,7 +441,78 @@ public class Solution implements Runnable {
             for (int i=0;i<c.getRowDimension();i++){
                 sbForInterimResult.append(c.get(i,0)+"      ");
             }
-            sbForInterimResult.append("\n\nФ"+(yi+1)+" = "+c.get(0,0)+"Ф1 + " + c.get(1,0)+ "Ф2 + " +c.get(2,0)+"Ф3");
+            sbForInterimResult.append("\n---------------------------------------------------------------------------------------------------------");
+            sbForInterimResult.append("\n\nФ"+(yi+1)+"(x1,x2,x3) = "+c.get(0,0)+"Ф1'(x1'[q]) + " + c.get(1,0)+ "Ф2'(x2'[q]) + " +c.get(2,0)+"Ф3'(x3'[q])");
+            sbForInterimResult.append("\n\nФ1'(x1'[q]) = ");
+            for (int i=0;i<a1.getRowDimension();i++){
+                if (i==a1.getRowDimension()-1)
+                    sbForInterimResult.append(a1.get(i,0)+"psi1(x1"+i+"[q])");
+                else
+                    sbForInterimResult.append(a1.get(i,0)+"psi1(x1"+i+"[q]) + ");
+            }
+            sbForInterimResult.append("\nФ2'(x2'[q]) = ");
+            for (int i=0;i<a2.getRowDimension();i++){
+                if (i==a2.getRowDimension()-1)
+                    sbForInterimResult.append(a2.get(i,0)+"psi2(x2"+i+"[q])");
+                else
+                    sbForInterimResult.append(a2.get(i,0)+"psi2(x2"+i+"[q]) + ");
+            }
+            sbForInterimResult.append("\nФ3'(x3'[q]) = ");
+            for (int i=0;i<a3.getRowDimension();i++){
+                if (i==a3.getRowDimension()-1)
+                    sbForInterimResult.append(a3.get(i,0)+"psi3(x3"+i+"[q])");
+                else
+                    sbForInterimResult.append(a3.get(i,0)+"psi3(x3"+i+"[q]) + ");
+            }
+
+            sbForInterimResult.append("\n\npsi1(x1'[q]) = ");
+            int k=1;
+            int power = 0;
+            for (int i=0;i<k*(powerX1+1);i++){
+                if (i<lambda1.getRowDimension()-1) {
+                    sbForInterimResult.append(lambda1.get(i, 0) + "T"+(power++)+"'(x1" + (k - 1) + ") + ");
+                }
+                else
+                    sbForInterimResult.append(lambda1.get(i,0)+"T'(x1"+(k-1)+")");
+                if ((i==k*(powerX1+1)-1)&&(i!=lambda1.getRowDimension()-1)) {
+                    k++;
+                    power = 0;
+                    sbForInterimResult.append("\n");
+                }
+            }
+            sbForInterimResult.append("\n\npsi2(x2'[q]) = ");
+            k=1;
+            power = 0;
+            for (int i=0;i<k*(powerX2+1);i++){
+                if (i<lambda2.getRowDimension()-1) {
+                    sbForInterimResult.append(lambda2.get(i, 0) + "T"+(power++)+"'(x2" + (k - 1) + ") + ");
+                }
+                else
+                    sbForInterimResult.append(lambda2.get(i,0)+"T'(x2"+(k-1)+")");
+                if ((i==k*(powerX2+1)-1)&&(i!=lambda2.getRowDimension()-1)) {
+                    k++;
+                    power = 0;
+                    sbForInterimResult.append("\n");
+                }
+            }
+            sbForInterimResult.append("\n\npsi3(x3'[q]) = ");
+            k=1;
+            power = 0;
+            for (int i=0;i<k*(powerX3+1);i++){
+                if (i<lambda3.getRowDimension()-1) {
+                    sbForInterimResult.append(lambda3.get(i, 0) + "T"+(power++)+"'(x3" + (k - 1) + ") + ");
+                }
+                else
+                    sbForInterimResult.append(lambda3.get(i,0)+"T'(x3"+(k-1)+")");
+                if ((i==k*(powerX3+1)-1)&&(i!=lambda3.getRowDimension()-1)) {
+                    k++;
+                    power = 0;
+                    sbForInterimResult.append("\n");
+                }
+            }
+            sbForInterimResult.append("\n---------------------------------------------------------------------------------------------------------");
+
+
             sbForInterimResult.append("\n\nФункція виражена через поліноми "+polinomType+":\nФ"+(yi+1)+"(x1,x2,x3) = ");
             count = 0;
             currentX = 1;
@@ -452,7 +562,7 @@ public class Solution implements Runnable {
             Matrix errors = originalY.minus(findForiginal);
             maxError = MyMath.maxValue(errors);
         }
-        else {
+        else if (a1!=null&&a2!=null&&a3!=null&&c!=null){
             Matrix errors = originalY.minus(findForiginal);
             maxError = MyMath.maxValue(errors);
             System.out.println(maxError);

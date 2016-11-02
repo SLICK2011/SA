@@ -42,19 +42,9 @@ public class MyMath {
         }
     }
 
-    public static Matrix ordLeastSquares(Matrix x, Matrix y) {
+    public static Matrix ordLeastSquares(Matrix x, Matrix y) throws RuntimeException{
         Matrix help = x.transpose().times(x);
-        try {
-            return help.inverse().times(x.transpose()).times(y);
-        }catch (RuntimeException e){
-            for (int i=0;i<help.getRowDimension();i++){
-                for (int j=0;j<help.getColumnDimension();j++){
-                    help.set(i,j,help.get(i,j)+Math.random()*1e-8);
-                }
-            }
-            return help.inverse().times(x.transpose()).times(y);
-        }
-
+        return help.inverse().times(x.transpose()).times(y);
     }
 
     public static double maxValue(Matrix x){

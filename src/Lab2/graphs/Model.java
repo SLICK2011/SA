@@ -11,11 +11,7 @@ import Lab2.Solution;
  */
 public class Model {
 
-    public static Solution y1;
-    public static Solution y2;
-    public static Solution y3;
-    public static Solution y4;
-    public static int i;
+    public static Solution[] yi;
 
 
 }

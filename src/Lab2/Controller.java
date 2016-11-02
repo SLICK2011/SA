@@ -29,6 +29,7 @@ public class Controller {
     private double[][] allDataXnorma;
     private double[][] allDataY;
     private double[][] allDataYnorma;
+    private Solution[] yI;
 
     public double[][] getAllDataY() {
         return allDataY;
@@ -155,11 +156,25 @@ public class Controller {
                 polinomType = 1;
 
 
-            y1 = new Solution(allDataXnorma, allDataYnorma, allDataX, allDataY, sizeX1.getValue(), sizeX2.getValue(), sizeX3.getValue(), powerX1.getValue(),
+            yI = new Solution[sizeY.getValue()];
+            StringBuilder sb = new StringBuilder();
+            for (int i=0;i<sizeY.getValue();i++){
+                yI[i] = new Solution(allDataXnorma, allDataYnorma, allDataX, allDataY, sizeX1.getValue(), sizeX2.getValue(), sizeX3.getValue(), powerX1.getValue(),
+                        powerX2.getValue(), powerX3.getValue(), i, polinomType,true);
+                if (yI[i].getStringInterimResult()!=null){
+                    sb.append("\n--------------------------------i="+(i+1)+"--------------------------------");
+                    sb.append(yI[i].getStringInterimResult());
+                }
+
+            }
+
+            /*y1 = new Solution(allDataXnorma, allDataYnorma, allDataX, allDataY, sizeX1.getValue(), sizeX2.getValue(), sizeX3.getValue(), powerX1.getValue(),
                     powerX2.getValue(), powerX3.getValue(), 0, polinomType,true);
             StringBuilder sb = new StringBuilder();
-            sb.append("--------------------------------i=1--------------------------------");
-            sb.append(y1.getStringInterimResult());
+            if (y1.getStringInterimResult()!=null) {
+                sb.append("--------------------------------i=1--------------------------------");
+                sb.append(y1.getStringInterimResult());
+            }
             y2 = new Solution(allDataXnorma, allDataYnorma, allDataX, allDataY, sizeX1.getValue(), sizeX2.getValue(), sizeX3.getValue(), powerX1.getValue(),
                     powerX2.getValue(), powerX3.getValue(), 1, polinomType,true);
             sb.append("\n--------------------------------i=2--------------------------------");
@@ -177,7 +192,7 @@ public class Controller {
                         powerX2.getValue(), powerX3.getValue(), 3, polinomType,true);
                 sb.append("\n--------------------------------i=4--------------------------------");
                 sb.append(y4.getStringInterimResult());
-            }
+            }*/
             console.setText(sb.toString());
         }
     }
@@ -240,12 +255,7 @@ public class Controller {
         @FXML
         public void graph(javafx.event.ActionEvent event)  {
             try {
-                int i =0;
-                if (y1!=null) i++;
-                if (y2!=null) i++;
-                if (y3!=null) i++;
-                if (y4!=null) i++;
-                new CreateGraphs(event,y1,y2,y3,y4,i).start(Main.primaryStage);
+                new CreateGraphs(event,yI[0],yI[1],yI[2],yI[3],sizeY.getValue()).start(Main.primaryStage);
             } catch (Exception e) {
             }
         }

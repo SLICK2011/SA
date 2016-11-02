@@ -18,13 +18,9 @@ public class CreateGraphs extends Application {
     private ActionEvent actionEvent;
 
 
-    public CreateGraphs(ActionEvent actionEvent, Solution y1,Solution y2,Solution y3,Solution y4,int i) {
+    public CreateGraphs(ActionEvent actionEvent, Solution[] yI) {
         this.actionEvent = actionEvent;
-        Model.y1 = y1;
-        Model.y2 = y2;
-        Model.y3 = y3;
-        Model.y4 = y4;
-        Model.i = i;
+        Model.yi = yI;
 
     }
 

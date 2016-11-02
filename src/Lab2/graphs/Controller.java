@@ -27,10 +27,7 @@ public class Controller {
     @FXML public ComboBox comboBoxy2;
     @FXML public ComboBox comboBoxy3;
     @FXML public ComboBox comboBoxy4;
-    @FXML public LineChart<Number,Number> y1;
-    @FXML public LineChart<Number,Number> y2;
-    @FXML public LineChart<Number,Number> y3;
-    @FXML public LineChart<Number,Number> y4;
+    @FXML public LineChart<Number,Number>[] yLineChart;
 
     @FXML
     public void initialize() {
@@ -40,14 +37,13 @@ public class Controller {
                         "2.Відтворені значення"
         );
 
-        System.out.println(Model.i);
 
-        switch (Model.i){
+       /* switch (Model.i){
             case 2:
                 tabPane.getTabs().remove(tab3);
                 tabPane.getTabs().remove(tab4);
                 break;
-        }
+        }*/
 
         comboBoxy1.getItems().addAll(options);
         comboBoxy2.getItems().addAll(options);
