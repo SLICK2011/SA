@@ -3,6 +3,8 @@ package Lab2.graphs;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -14,28 +16,47 @@ import javafx.scene.layout.BorderPane;
 
 public class Controller {
 
-    @FXML public TabPane tabPane;
-    @FXML public Tab tab1;
-    @FXML public Tab tab2;
-    @FXML public Tab tab3;
-    @FXML public Tab tab4;
-    @FXML public BorderPane borderPane1;
-    @FXML public BorderPane borderPane2;
-    @FXML public BorderPane borderPane3;
-    @FXML public BorderPane borderPane4;
-    @FXML public ComboBox comboBoxy1;
-    @FXML public ComboBox comboBoxy2;
-    @FXML public ComboBox comboBoxy3;
-    @FXML public ComboBox comboBoxy4;
+
+    @FXML public BorderPane borderPaneMain;
+
+    @FXML public TabPane tabPaneMain;
+    @FXML public Tab[] tabs;
+    @FXML public BorderPane[] borderPanes;
+    @FXML public ComboBox[] comboBoxs;
     @FXML public LineChart<Number,Number>[] yLineChart;
 
     @FXML
     public void initialize() {
+
+        tabPaneMain = new TabPane();
+        borderPaneMain.setCenter(tabPaneMain);
+
+        tabs = new Tab[Model.yi.length];
+        borderPanes = new BorderPane[Model.yi.length];
+        comboBoxs = new ComboBox[Model.yi.length];
+        yLineChart = new LineChart[Model.yi.length];
+
+        borderPaneMain.setCenter(tabPaneMain);
         ObservableList<String> options =
                 FXCollections.observableArrayList(
                         "1.Нормовані значення",
                         "2.Відтворені значення"
-        );
+                );
+
+        for (int i = 0; i < Model.yi.length; i++) {
+            comboBoxs[i] = new ComboBox();
+            borderPanes[i] = new BorderPane();
+            tabs[i] = new Tab(String.valueOf(i),borderPanes[i]);
+            comboBoxs[i].getItems().addAll(options);
+
+            borderPanes[i].setBottom(comboBoxs[i]);
+            comboBoxs[i].getSelectionModel().select(0);
+        }
+        tabPaneMain.getTabs().addAll(tabs);
+
+
+
+
 
 
        /* switch (Model.i){
@@ -45,37 +66,44 @@ public class Controller {
                 break;
         }*/
 
-        comboBoxy1.getItems().addAll(options);
-        comboBoxy2.getItems().addAll(options);
-        comboBoxy3.getItems().addAll(options);
-        comboBoxy4.getItems().addAll(options);
-
-        comboBoxy1.getSelectionModel().select(0);
-        comboBoxy2.getSelectionModel().select(0);
-        comboBoxy3.getSelectionModel().select(0);
-        comboBoxy4.getSelectionModel().select(0);
 
 
-        refresh();
+        //tabPaneMain.getSelectionModel().select(0);
+
+        for (int i = 0; i < Model.yi.length; i++) {
+            EventHandler eh = new EventHandler<Event>() {
+                @Override
+                public void handle(Event event) {
+                    refresh();
+                }
+            };
+            comboBoxs[i].setOnAction(eh);
+            tabs[i].setOnSelectionChanged(eh);
+
+        }
+
+
+        tabSelected(0);
     }
 
     @FXML
     public void refresh(){
-        if (tab1.isSelected()) tab1Selected();
-        if (tab2.isSelected()) tab2Selected();
-        if (tab3.isSelected()) tab3Selected();
-        if (tab4.isSelected()) tab4Selected();
+        for (int i = 0; i < Model.yi.length; i++) {
+            if (tabs[i].isSelected()) tabSelected(i);
+        }
+
     }
 
 
     @FXML
-    public void tab1Selected(){
-        if (comboBoxy1.getSelectionModel().getSelectedIndex() == 0)
+    public void tabSelected(int i){
+        System.out.println(comboBoxs[i].getSelectionModel().getSelectedIndex());
+        if (comboBoxs[i].getSelectionModel().getSelectedIndex() == 0)
         {
             NumberAxis x = new NumberAxis();
             NumberAxis y = new NumberAxis();
 
-            y1 = new LineChart<Number, Number>(x,y);
+            yLineChart[i] = new LineChart<Number, Number>(x,y);
 
 
 
@@ -85,28 +113,27 @@ public class Controller {
             ObservableList<XYChart.Data> datas = FXCollections.observableArrayList();
             ObservableList<XYChart.Data> datas1 = FXCollections.observableArrayList();
 
-            for(int j=0; j<Model.y1.getNormaY().getRowDimension(); j++){
-                datas.add(new XYChart.Data(j,Model.y1.getNormaY().get(j,0)));
+            for(int j=0; j<Model.yi[i].getNormaY().getRowDimension(); j++){
+                datas.add(new XYChart.Data(j,Model.yi[i].getNormaY().get(j,0)));
                // datas.add(new XYChart.Data(j,j*j));
             }
-            for(int j=0; j<Model.y1.getFindFnorma().getRowDimension(); j++){
-                datas1.add(new XYChart.Data(j,Model.y1.getFindFnorma().get(j,0)));
+            for(int j=0; j<Model.yi[i].getFindFnorma().getRowDimension(); j++){
+                datas1.add(new XYChart.Data(j,Model.yi[i].getFindFnorma().get(j,0)));
             }
 
             series.setData(datas);
             series1.setData(datas1);
 
 
-            borderPane1.setCenter(y1);
-            borderPane1.setBottom(comboBoxy1);
-            y1.getData().add(series);
-            y1.getData().add(series1);
+            borderPanes[i].setCenter(yLineChart[i]);
+            yLineChart[i].getData().add(series);
+            yLineChart[i].getData().add(series1);
 
-        } else if (comboBoxy1.getSelectionModel().getSelectedIndex() == 1){
+        } else if (comboBoxs[i].getSelectionModel().getSelectedIndex() == 1){
             NumberAxis x = new NumberAxis();
             NumberAxis y = new NumberAxis();
 
-            y1 = new LineChart<Number, Number>(x,y);
+            yLineChart[i] = new LineChart<Number, Number>(x,y);
 
 
 
@@ -116,25 +143,24 @@ public class Controller {
             ObservableList<XYChart.Data> datas = FXCollections.observableArrayList();
             ObservableList<XYChart.Data> datas1 = FXCollections.observableArrayList();
 
-            for(int j=0; j<Model.y1.getOriginalY().getRowDimension(); j++){
-                datas.add(new XYChart.Data(j,Model.y1.getOriginalY().get(j,0)));
+            for(int j=0; j<Model.yi[i].getOriginalY().getRowDimension(); j++){
+                datas.add(new XYChart.Data(j,Model.yi[i].getOriginalY().get(j,0)));
             }
-            for(int j=0; j<Model.y1.getFindForiginal().getRowDimension(); j++){
-                datas1.add(new XYChart.Data(j,Model.y1.getFindForiginal().get(j,0)));
+            for(int j=0; j<Model.yi[i].getFindForiginal().getRowDimension(); j++){
+                datas1.add(new XYChart.Data(j,Model.yi[i].getFindForiginal().get(j,0)));
             }
 
             series.setData(datas);
             series1.setData(datas1);
 
 
-            borderPane1.setCenter(y1);
-            borderPane1.setBottom(comboBoxy1);
-            y1.getData().add(series);
-            y1.getData().add(series1);
+            borderPanes[i].setCenter(yLineChart[i]);
+            yLineChart[i].getData().add(series);
+            yLineChart[i].getData().add(series1);
         }
     }
 
-    @FXML
+    /*@FXML
     public void tab2Selected(){
         if (comboBoxy2.getSelectionModel().getSelectedIndex() == 0)
         {
@@ -325,7 +351,7 @@ public class Controller {
             y4.getData().add(series);
             y4.getData().add(series1);
         }
-    }
+    }*/
 
 
 }

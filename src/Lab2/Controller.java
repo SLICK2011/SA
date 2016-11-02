@@ -1,20 +1,14 @@
 package Lab2;
 
-import Jama.Matrix;
 import Lab2.graphs.CreateGraphs;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.awt.event.ActionEvent;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Controller {
@@ -255,7 +249,7 @@ public class Controller {
         @FXML
         public void graph(javafx.event.ActionEvent event)  {
             try {
-                new CreateGraphs(event,yI[0],yI[1],yI[2],yI[3],sizeY.getValue()).start(Main.primaryStage);
+                new CreateGraphs(event,yI).start(Main.primaryStage);
             } catch (Exception e) {
             }
         }
