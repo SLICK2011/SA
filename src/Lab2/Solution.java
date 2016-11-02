@@ -23,7 +23,7 @@ public class Solution implements Runnable {
     private Matrix findFnorma;
     private int polinomType;
     private boolean flag;
-    private double maxError;
+    private double maxError = 100.0;
 
     public double getMaxError() {
         return maxError;
@@ -111,16 +111,17 @@ public class Solution implements Runnable {
         for (int i=0;i<lambda1X.getRowDimension();i++){
             lambda1X.set(i,0,lambda1X.get(i,0)+1e-7);
         }
-        try {
+        //try {
             lambda1 = MyMath.ordLeastSquares(lambda1X,normaY);
-        }catch (RuntimeException e){
-            maxError = 100;
-        }
+        //}catch (RuntimeException e){
+          //  maxError = 100;
+            //System.out.println("Exception lambda1");
+        //}
 
         count = 0;
         currentX = 1;
         for (int j=0;j<(powerX1+1)*sizeX1;j++){
-            sbForFinalResult.append("("+lambda1.get(j,0)+")"+"T"+count+"(x1"+currentX+") + ");
+            //sbForFinalResult.append("("+lambda1.get(j,0)+")"+"T"+count+"(x1"+currentX+") + ");
             count++;
             if (count == interval) {
                 count = 0;
@@ -147,16 +148,17 @@ public class Solution implements Runnable {
         for (int i=0;i<lambda2X.getRowDimension();i++){
             lambda2X.set(i,0,lambda2X.get(i,0)+1e-7);
         }
-        try {
+        //try {
             lambda2 = MyMath.ordLeastSquares(lambda2X,normaY);
-        }catch (RuntimeException e){
-            maxError = 100;
-        }
+        //}catch (RuntimeException e){
+         //   maxError = 100;
+          //  System.out.println("Exception lambda2");
+        //}
 
         count = 0;
         currentX = 1;
         for (int j=0;j<(powerX2+1)*sizeX2;j++){
-            sbForFinalResult.append("("+lambda2.get(j,0)+")"+"T"+count+"(x2"+currentX+") + ");
+            //sbForFinalResult.append("("+lambda2.get(j,0)+")"+"T"+count+"(x2"+currentX+") + ");
             count++;
             if (count == interval) {
                 count = 0;
@@ -168,8 +170,10 @@ public class Solution implements Runnable {
         interval = powerX3 + 1;
         count = 0;
         currentX = sizeX1+sizeX2;
+        //System.out.println("matrixTools rows="+matrixToOls.length+" matrixTools columns"+(powerX3+1)*sizeX3);
         for (int i=0;i<matrixToOls.length;i++){
             for (int j=0;j<(powerX3+1)*sizeX3;j++){
+                //System.out.println("i="+i+" j="+j);
                 matrixToOls[i][j] = Polinomials.countPolinomValue(polinomType,normaX.get(i,currentX),count);
                 count++;
                 if (count == interval) {
@@ -185,17 +189,18 @@ public class Solution implements Runnable {
             lambda3X.set(i,4,lambda3X.get(i,4)+2e-7);
         }
         //lambda3X.print(lambda3X.getColumnDimension(),7);
-        try {
+        //try {
             lambda3 = MyMath.ordLeastSquares(lambda3X,normaY);
-        }catch (RuntimeException e){
-            maxError = 100;
-        }
+        //}catch (RuntimeException e){
+          //  System.out.println("Exception lambda3");
+           // maxError = 100;
+        //}
 
 
         count = 0;
         currentX = 1;
         for (int j=0;j<(powerX3+1)*sizeX3;j++){
-            sbForFinalResult.append("("+lambda3.get(j,0)+")"+"T"+count+"(x3"+currentX+") + ");
+            //sbForFinalResult.append("("+lambda3.get(j,0)+")"+"T"+count+"(x3"+currentX+") + ");
             count++;
             if (count == interval) {
                 count = 0;
@@ -269,34 +274,37 @@ public class Solution implements Runnable {
         //1
         Matrix a1;
         Matrix matrixPsi1 = new Matrix(psi1);
-        try {
+        //try {
             a1 = MyMath.ordLeastSquares(matrixPsi1,normaY);
-        }catch (RuntimeException e){
-            maxError = 100;
-            a1 = null;
-        }
+        //}catch (RuntimeException e){
+          //  maxError = 100;
+            //System.out.println("Exception a1");
+            //a1 = null;
+        //}
 
 
         //2
         Matrix a2;
         Matrix matrixPsi2 = new Matrix(psi2);
-        try {
+        //try {
             a2 = MyMath.ordLeastSquares(matrixPsi2,normaY);
-        }catch (RuntimeException e){
-            maxError = 100;
-            a2 = null;
-        }
+        //}catch (RuntimeException e){
+         //   maxError = 100;
+          //  System.out.println("Exception a2");
+           // a2 = null;
+        //}
 
 
         //3
         Matrix a3;
         Matrix matrixPsi3 = new Matrix(psi3);
-        try {
+        //try {
             a3 = MyMath.ordLeastSquares(matrixPsi3,normaY);
-        }catch (RuntimeException e){
-            maxError = 100;
-            a3 = null;
-        }
+        //}catch (RuntimeException e){
+         //   maxError = 100;
+          //  System.out.println("Exception a3");
+           // a3 = null;
+        //}
 
 
 
@@ -340,12 +348,13 @@ public class Solution implements Runnable {
         //1
         Matrix c;
         Matrix matrixAllF = new Matrix(allF);
-        try {
+        //try {
             c = MyMath.ordLeastSquares(matrixAllF,normaY);
-        }catch (RuntimeException e){
-            maxError = 100;
-            c = null;
-        }
+        //}catch (RuntimeException e){
+         //   maxError = 100;
+          //  System.out.println("Exception c");
+           // c = null;
+        //}
 
 
         Matrix yiq1 = new Matrix(matrixPsi1.getRowDimension(),1);
@@ -473,7 +482,7 @@ public class Solution implements Runnable {
                     sbForInterimResult.append(lambda1.get(i, 0) + "T"+(power++)+"'(x1" + (k - 1) + ") + ");
                 }
                 else
-                    sbForInterimResult.append(lambda1.get(i,0)+"T'(x1"+(k-1)+")");
+                    sbForInterimResult.append(lambda1.get(i,0)+"T"+(power++)+"'(x1"+(k-1)+")");
                 if ((i==k*(powerX1+1)-1)&&(i!=lambda1.getRowDimension()-1)) {
                     k++;
                     power = 0;
@@ -488,7 +497,7 @@ public class Solution implements Runnable {
                     sbForInterimResult.append(lambda2.get(i, 0) + "T"+(power++)+"'(x2" + (k - 1) + ") + ");
                 }
                 else
-                    sbForInterimResult.append(lambda2.get(i,0)+"T'(x2"+(k-1)+")");
+                    sbForInterimResult.append(lambda2.get(i,0)+"T"+(power++)+"'(x2"+(k-1)+")");
                 if ((i==k*(powerX2+1)-1)&&(i!=lambda2.getRowDimension()-1)) {
                     k++;
                     power = 0;
@@ -503,7 +512,7 @@ public class Solution implements Runnable {
                     sbForInterimResult.append(lambda3.get(i, 0) + "T"+(power++)+"'(x3" + (k - 1) + ") + ");
                 }
                 else
-                    sbForInterimResult.append(lambda3.get(i,0)+"T'(x3"+(k-1)+")");
+                    sbForInterimResult.append(lambda3.get(i,0)+"T"+(power++)+"'(x3"+(k-1)+")");
                 if ((i==k*(powerX3+1)-1)&&(i!=lambda3.getRowDimension()-1)) {
                     k++;
                     power = 0;

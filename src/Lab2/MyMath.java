@@ -42,7 +42,7 @@ public class MyMath {
         }
     }
 
-    public static Matrix ordLeastSquares(Matrix x, Matrix y) throws RuntimeException{
+    public static Matrix ordLeastSquares(Matrix x, Matrix y){
         Matrix help = x.transpose().times(x);
         return help.inverse().times(x.transpose()).times(y);
     }
