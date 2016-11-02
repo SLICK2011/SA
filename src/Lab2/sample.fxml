@@ -54,7 +54,7 @@
             <ComboBox fx:id="sizeY" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
       </GridPane>
-      <AnchorPane layoutX="18.0" layoutY="137.0" prefHeight="101.0" prefWidth="487.0">
+      <AnchorPane layoutX="18.0" layoutY="137.0" prefHeight="121.0" prefWidth="487.0">
          <children>
             <Label layoutX="10.0" layoutY="14.0" text="Степені поліномів" />
             <Label layoutX="11.0" layoutY="51.0" text="Для х1" />
@@ -63,11 +63,12 @@
             <ComboBox fx:id="powerX2" layoutX="216.0" layoutY="48.0" prefHeight="25.0" prefWidth="78.0" />
             <Label layoutX="316.0" layoutY="54.0" text="Для х3" />
             <ComboBox fx:id="powerX3" layoutX="372.0" layoutY="48.0" prefHeight="25.0" prefWidth="78.0" />
+            <Button layoutX="11.0" layoutY="82.0" mnemonicParsing="false" onAction="#struct" prefHeight="25.0" prefWidth="207.0" text="Визначити структуру" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="495.0" layoutY="159.0" prefHeight="101.0" prefWidth="305.0">
          <children>
-            <Button fx:id="graphs" layoutX="165.0" layoutY="58.0" mnemonicParsing="false" onAction="#graph" prefHeight="25.0" prefWidth="120.0" text="Графік" />
+            <Button fx:id="graphs" layoutX="165.0" layoutY="58.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Графік" />
             <CheckBox fx:id="lambda" layoutX="10.0" layoutY="19.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="287.0" text="Визначити lambda з 3 систем рівнянь" />
             <Button fx:id="start" layoutX="14.0" layoutY="58.0" mnemonicParsing="false" onAction="#start" prefHeight="25.0" prefWidth="120.0" text="Виконати" />
          </children>

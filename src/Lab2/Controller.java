@@ -1,7 +1,7 @@
 package Lab2;
 
 import Jama.Matrix;
-import Lab2.graphs.CreateGraphs;
+//import Lab2.graphs.CreateGraphs;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -144,7 +144,6 @@ public class Controller {
             allDataXnorma = MyMath.norma(allDataX, sizeX1.getValue() + sizeX2.getValue() + sizeX3.getValue());
             allDataY = Files.parseFile(in2, sizeY.getValue());
             allDataYnorma = MyMath.norma(allDataY, sizeY.getValue());
-            //MyMath.output(allDataYnorma,4);
             int polinomType;
             if (polinomGroup.getSelectedToggle() == lezhandra)
                 polinomType = 2;
@@ -167,37 +166,11 @@ public class Controller {
                 }
 
             }
-
-            /*y1 = new Solution(allDataXnorma, allDataYnorma, allDataX, allDataY, sizeX1.getValue(), sizeX2.getValue(), sizeX3.getValue(), powerX1.getValue(),
-                    powerX2.getValue(), powerX3.getValue(), 0, polinomType,true);
-            StringBuilder sb = new StringBuilder();
-            if (y1.getStringInterimResult()!=null) {
-                sb.append("--------------------------------i=1--------------------------------");
-                sb.append(y1.getStringInterimResult());
-            }
-            y2 = new Solution(allDataXnorma, allDataYnorma, allDataX, allDataY, sizeX1.getValue(), sizeX2.getValue(), sizeX3.getValue(), powerX1.getValue(),
-                    powerX2.getValue(), powerX3.getValue(), 1, polinomType,true);
-            sb.append("\n--------------------------------i=2--------------------------------");
-            sb.append(y2.getStringInterimResult());
-
-            if (sizeY.getValue()>2){
-            y3 = new Solution(allDataXnorma, allDataYnorma, allDataX, allDataY, sizeX1.getValue(), sizeX2.getValue(), sizeX3.getValue(), powerX1.getValue(),
-                    powerX2.getValue(), powerX3.getValue(), 2, polinomType,true);
-            sb.append("\n--------------------------------i=3--------------------------------");
-            sb.append(y3.getStringInterimResult());
-            }
-
-            if (sizeY.getValue()>3) {
-                y4 = new Solution(allDataXnorma, allDataYnorma, allDataX, allDataY, sizeX1.getValue(), sizeX2.getValue(), sizeX3.getValue(), powerX1.getValue(),
-                        powerX2.getValue(), powerX3.getValue(), 3, polinomType,true);
-                sb.append("\n--------------------------------i=4--------------------------------");
-                sb.append(y4.getStringInterimResult());
-            }*/
             console.setText(sb.toString());
         }
     }
 
-/*    @FXML
+    @FXML
     public void struct() throws InterruptedException {
         Solution y5;
         int yJ=0;
@@ -207,11 +180,18 @@ public class Controller {
         int conPower2=0;
         int conPower3=0;
         int conType=0;
+        if (in1 != null && in2 != null) {
+            allDataX = Files.parseFile(in1, sizeX1.getValue() + sizeX2.getValue() + sizeX3.getValue());
+            allDataXnorma = MyMath.norma(allDataX, sizeX1.getValue() + sizeX2.getValue() + sizeX3.getValue());
+            allDataY = Files.parseFile(in2, sizeY.getValue());
+            allDataYnorma = MyMath.norma(allDataY, sizeY.getValue());
+        }
+
         for (int power1=1;power1<11;power1++){
             for (int power2=1;power2<11;power2++){
                 for (int power3=1;power3<11;power3++){
                     for (int type=1;type<5;type++){
-                        y5 = new Solution(allDataXnorma,allDataYnorma,allDataX,allDataY,2,2,3,power1,power2,power3,yJ,type,false);
+                        y5 = new Solution(allDataXnorma,allDataYnorma,allDataX,allDataY,2,2,2,power1,power2,power3,yJ,type,false);
                         System.out.println((k++)+": "+y5.getMaxError()+" Power1: "+power1+" Power2: "+power2+" Power3: "+power3+" "+" Type: "+type);
                         if (y5.getMaxError()<minError&&y5.getMaxError()>0){
                             minError=y5.getMaxError();
@@ -245,19 +225,20 @@ public class Controller {
             }
 
         }
-        stringBuilder.append("Power1 = "+conPower1+"\nPower2 = "+conPower2+"\nPower3 = "+conPower3+
-                "\nType poli = "+poliType+"\nmin(MaxError) = "+minError);
+        stringBuilder.append("Тип полінома: "+poliType+"\n-----------------Степені полінома-----------------" +
+                "\nх1: "+conPower1+"\nх2: "+conPower2+"\nx3: "+conPower3+
+                "\nАбсолютна похибка: "+minError);
         console.setText(stringBuilder.toString());
         System.out.println(stringBuilder);
 
-    }*/
+    }
 
-        @FXML
+       /* @FXML
         public void graph(javafx.event.ActionEvent event)  {
             try {
                 new CreateGraphs(event,yI[0],yI[1],yI[2],yI[3],sizeY.getValue()).start(Main.primaryStage);
             } catch (Exception e) {
             }
-        }
+        }*/
     }
 
