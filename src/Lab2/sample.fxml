@@ -68,7 +68,7 @@
       </AnchorPane>
       <AnchorPane layoutX="495.0" layoutY="159.0" prefHeight="101.0" prefWidth="305.0">
          <children>
-            <Button fx:id="graphs" layoutX="165.0" layoutY="58.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Графік" />
+            <Button fx:id="graphs" layoutX="165.0" layoutY="58.0" mnemonicParsing="false" onAction="#graph" prefHeight="25.0" prefWidth="120.0" text="Графік" />
             <CheckBox fx:id="lambda" layoutX="10.0" layoutY="19.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="287.0" text="Визначити lambda з 3 систем рівнянь" />
             <Button fx:id="start" layoutX="14.0" layoutY="58.0" mnemonicParsing="false" onAction="#start" prefHeight="25.0" prefWidth="120.0" text="Виконати" />
          </children>

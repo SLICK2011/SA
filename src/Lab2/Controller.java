@@ -1,7 +1,6 @@
 package Lab2;
 
-import Jama.Matrix;
-
+import Lab2.graphs.CreateGraphs;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -228,11 +227,11 @@ public class Controller {
 
     }
 
-       /* @FXML
+        @FXML
         public void graph(javafx.event.ActionEvent event)  {
             try {
                 new CreateGraphs(event,yI).start(Main.primaryStage);
             } catch (Exception e) {
             }
-        }*/
+        }
     }
