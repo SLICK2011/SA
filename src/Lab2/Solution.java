@@ -24,6 +24,8 @@ public class Solution implements Runnable {
     private int polinomType;
     private boolean flag;
     private double maxError = 100.0;
+    private boolean inverseGood = true;
+
 
     public double getMaxError() {
         return maxError;
@@ -111,17 +113,18 @@ public class Solution implements Runnable {
         for (int i=0;i<lambda1X.getRowDimension();i++){
             lambda1X.set(i,0,lambda1X.get(i,0)+1e-7);
         }
-        //try {
+        try {
             lambda1 = MyMath.ordLeastSquares(lambda1X,normaY);
-        //}catch (RuntimeException e){
-          //  maxError = 100;
-            //System.out.println("Exception lambda1");
-        //}
+        }catch (RuntimeException e){
+            e.printStackTrace();
+            //System.out.println("EEXXXXXXXXXXXXXXXXXXXXXXX");
+            //inverseGood = false;
+            return;
+        }
 
         count = 0;
         currentX = 1;
         for (int j=0;j<(powerX1+1)*sizeX1;j++){
-            //sbForFinalResult.append("("+lambda1.get(j,0)+")"+"T"+count+"(x1"+currentX+") + ");
             count++;
             if (count == interval) {
                 count = 0;
@@ -148,12 +151,14 @@ public class Solution implements Runnable {
         for (int i=0;i<lambda2X.getRowDimension();i++){
             lambda2X.set(i,0,lambda2X.get(i,0)+1e-7);
         }
-        //try {
+        try {
             lambda2 = MyMath.ordLeastSquares(lambda2X,normaY);
-        //}catch (RuntimeException e){
-         //   maxError = 100;
-          //  System.out.println("Exception lambda2");
-        //}
+        }catch (RuntimeException e){
+            e.printStackTrace();
+            //System.out.println("EEXXXXXXXXXXXXXXXXXXXXXXX");
+            //inverseGood = false;
+            return;
+        }
 
         count = 0;
         currentX = 1;
@@ -189,12 +194,14 @@ public class Solution implements Runnable {
             lambda3X.set(i,4,lambda3X.get(i,4)+2e-7);
         }
         //lambda3X.print(lambda3X.getColumnDimension(),7);
-        //try {
+        try {
             lambda3 = MyMath.ordLeastSquares(lambda3X,normaY);
-        //}catch (RuntimeException e){
-          //  System.out.println("Exception lambda3");
-           // maxError = 100;
-        //}
+        }catch (RuntimeException e){
+            e.printStackTrace();
+            //System.out.println("EEXXXXXXXXXXXXXXXXXXXXXXX");
+            //inverseGood = false;
+            return;
+        }
 
 
         count = 0;
@@ -274,37 +281,44 @@ public class Solution implements Runnable {
         //1
         Matrix a1;
         Matrix matrixPsi1 = new Matrix(psi1);
-        //try {
+        try {
             a1 = MyMath.ordLeastSquares(matrixPsi1,normaY);
-        //}catch (RuntimeException e){
-          //  maxError = 100;
-            //System.out.println("Exception a1");
+        }catch (RuntimeException e){
+            e.printStackTrace();
+            //System.out.println("EEXXXXXXXXXXXXXXXXXXXXXXX");
+            //inverseGood = false;
             //a1 = null;
-        //}
+            return;
+        }
 
 
         //2
         Matrix a2;
         Matrix matrixPsi2 = new Matrix(psi2);
-        //try {
+        try {
             a2 = MyMath.ordLeastSquares(matrixPsi2,normaY);
-        //}catch (RuntimeException e){
-         //   maxError = 100;
-          //  System.out.println("Exception a2");
-           // a2 = null;
-        //}
+        }catch (RuntimeException e){
+            //e.printStackTrace();
+            //System.out.println("EEXXXXXXXXXXXXXXXXXXXXXXX");
+            //t.interrupt();
+            //inverseGood = false;
+            //a2 = null;
+            return;
+        }
 
 
         //3
         Matrix a3;
         Matrix matrixPsi3 = new Matrix(psi3);
-        //try {
+        try {
             a3 = MyMath.ordLeastSquares(matrixPsi3,normaY);
-        //}catch (RuntimeException e){
-         //   maxError = 100;
-          //  System.out.println("Exception a3");
-           // a3 = null;
-        //}
+        }catch (RuntimeException e){
+            e.printStackTrace();
+            //System.out.println("EEXXXXXXXXXXXXXXXXXXXXXXX");
+            //inverseGood = false;
+            //a3 = null;
+            return;
+        }
 
 
 
@@ -348,13 +362,15 @@ public class Solution implements Runnable {
         //1
         Matrix c;
         Matrix matrixAllF = new Matrix(allF);
-        //try {
+        try {
             c = MyMath.ordLeastSquares(matrixAllF,normaY);
-        //}catch (RuntimeException e){
-         //   maxError = 100;
-          //  System.out.println("Exception c");
-           // c = null;
-        //}
+        }catch (RuntimeException e){
+            e.printStackTrace();
+            //System.out.println("EEXXXXXXXXXXXXXXXXXXXXXXX");
+            //inverseGood = false;
+            //c = null;
+            return;
+        }
 
 
         Matrix yiq1 = new Matrix(matrixPsi1.getRowDimension(),1);
@@ -521,8 +537,18 @@ public class Solution implements Runnable {
             }
             sbForInterimResult.append("\n---------------------------------------------------------------------------------------------------------");
 
-
-            sbForInterimResult.append("\n\nФункція виражена через поліноми "+polinomType+":\nФ"+(yi+1)+"(x1,x2,x3) = ");
+            String type = "";
+            switch (polinomType){
+                case 1: type = "Чебишева";
+                        break;
+                case 2: type = "Лежандра";
+                        break;
+                case 3: type = "Лагера";
+                        break;
+                case 4: type = "Ерміта";
+                        break;
+            }
+            sbForInterimResult.append("\n\nФункція виражена через поліноми "+type+":\nФ"+(yi+1)+"(x1,x2,x3) = ");
             count = 0;
             currentX = 1;
             interval = powerX1 + 1;
@@ -568,14 +594,12 @@ public class Solution implements Runnable {
             sbForInterimResult.append("\nМаксимальна похибка: "+MyMath.maxValue(originalY.minus(findForiginal)));
             sbForInterimResult.append("\nМаксимальна похибка(нормована): "+MyMath.maxValue(normaY.minus(findFiNorma)));
             stringInterimResult = sbForInterimResult.toString();
-            Matrix errors = originalY.minus(findForiginal);
-            maxError = MyMath.maxValue(errors);
         }
-        else if (a1!=null&&a2!=null&&a3!=null&&c!=null){
-            Matrix errors = originalY.minus(findForiginal);
-            maxError = MyMath.maxValue(errors);
-            System.out.println(maxError);
-        }
+        Matrix errors = originalY.minus(findForiginal);
+        maxError = MyMath.maxValue(errors);
+        //System.out.println("INSIDE: "+powerX1+"|"+powerX2+"|"+powerX3+"|type="+polinomType+"|"+maxError);
+
+
 
     }
 }

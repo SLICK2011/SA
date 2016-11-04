@@ -43,8 +43,26 @@ public class MyMath {
     }
 
     public static Matrix ordLeastSquares(Matrix x, Matrix y){
+
         Matrix help = x.transpose().times(x);
-        return help.inverse().times(x.transpose()).times(y);
+        try {
+            return help.inverse().times(x.transpose()).times(y);
+        }catch (RuntimeException e){
+            //help.print(help.getColumnDimension(),10);
+            //System.out.println(help.det());
+            for (int i=0;i<help.getRowDimension();i++){
+                for (int j=0;j<help.getColumnDimension();j++){
+                    if (i==j){
+                        help.set(i,j,help.get(i,j)+1e-4);
+                    }
+
+                }
+            }
+            //help.print(help.getColumnDimension(),10);
+            //System.out.println(help.det());
+            return help.inverse().times(x.transpose()).times(y);
+        }
+
     }
 
     public static double maxValue(Matrix x){

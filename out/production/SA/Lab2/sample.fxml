@@ -51,7 +51,7 @@
             <ComboBox fx:id="sizeX2" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <ComboBox fx:id="sizeX3" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label text="Розмірність Y" GridPane.rowIndex="4" />
-            <ComboBox fx:id="sizeY" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ComboBox fx:id="sizeY" onAction="#configCurrentY" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
       </GridPane>
       <AnchorPane layoutX="18.0" layoutY="137.0" prefHeight="121.0" prefWidth="487.0">
@@ -63,7 +63,8 @@
             <ComboBox fx:id="powerX2" layoutX="216.0" layoutY="48.0" prefHeight="25.0" prefWidth="78.0" />
             <Label layoutX="316.0" layoutY="54.0" text="Для х3" />
             <ComboBox fx:id="powerX3" layoutX="372.0" layoutY="48.0" prefHeight="25.0" prefWidth="78.0" />
-            <Button layoutX="11.0" layoutY="82.0" mnemonicParsing="false" onAction="#struct" prefHeight="25.0" prefWidth="207.0" text="Визначити структуру" />
+            <Button layoutX="179.0" layoutY="83.0" mnemonicParsing="false" onAction="#struct" prefHeight="25.0" prefWidth="207.0" text="Визначити структуру" />
+            <ComboBox fx:id="currentY" layoutX="10.0" layoutY="82.0" prefWidth="150.0" promptText="Оберіть Y" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="495.0" layoutY="159.0" prefHeight="101.0" prefWidth="305.0">
